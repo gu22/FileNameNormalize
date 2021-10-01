@@ -17,8 +17,9 @@ from unidecode import unidecode
 from pathlib import PurePath
 
 path_matricial = 'D:/gusan/Documents/PROGRAMAÇÃO/GitHub/FileNameNormalize/teste'
-contador = str(0)
-r = []
+
+
+
 def Vasculhar(diretorio_observado):
     dentro_diretorio = os.listdir(diretorio_observado)
     return dentro_diretorio
@@ -32,50 +33,52 @@ def Vasculhar(diretorio_observado):
 #             pass
 #     return files
     
+
 def Indexacao(objetos):
-    global x,y,z,r
-    # global contador
-    # nomeador  = f'Dir_{contador}'
-    # for part in objetos:
-    #     dir_check = os.path.join(local,part)
-        
-    #     if os.path.isdir(dir_check) is False:
-    #         nomeador.append(os.path.join(local,part))
-    #     else:
-    #         pass
-    # return nomeador
-    
-        # for i in os.scandir(objetos):
-        #     # print(i)
-        #     if i.is_dir():
-        #         print(i)
-        #         # print('ok\n')
-        #         Indexacao(i)
-            # else:
-            #     print('nao')
-            
+    global Dirs,sub_Dirs,Files
+    Dirs = []
+    sub_Dirs = []
+    Files = []
     put = os.walk(objetos)
-    for x,y,z in put:
-        r.append(z)
-        
-              
+    for diretorios,subdiretorios,arquivos in put:
+        Dirs.append(diretorios)
+        sub_Dirs.append(subdiretorios)
+        Files.append(arquivos)
+
+def AutoRename_files(lista):
+    global prep_list_arq
+    global prep_list_ext
+    
+    prep_list_arq = []
+    prep_list_ext = []
+    
+    for arq in lista:
+        sep =os.path.splitext(arq)
+        prep_list_arq.append(sep[0])
+        prep_list_ext.append(sep[1])
+    # for item_arq,item_ext in prep_list_arq,prep_list_ext:
+    #     nome = unidecode(item) 
+    #     if nome == item_arq:
+    #         pass
+    #     else:
+    #         print(nome.join(item_ext)) 
+            # os.rename()
+
+#=========================================================
 
 # path_dir = easygui.fileopenbox()
 
-# intodir = os.listdir(path)
-
-x = Vasculhar(path_matricial)
-
-print(x)
-
 Indexacao(path_matricial)
-# for i in os.scandir(path_matricial):
-#     print(i)
-#     if i.is_dir():
-#         print(i)
-#         print('ok\n')
-#     else:
-#         print('nao')
 
-# for dot in intodir:
-#     in_path = os.listdir(dot)
+n_dirs =(len(Dirs))
+contador = (n_dirs -1)
+
+for contagem in range(n_dirs):
+    
+    while contador > 0:
+        select_dir = Dirs[contador]
+        AutoRename_files(Files[contador])
+        
+        contador-=1
+        
+print('ok')
