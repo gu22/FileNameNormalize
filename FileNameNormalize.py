@@ -47,21 +47,25 @@ def Indexacao(objetos):
 
 def AutoRename_files(lista):
     global prep_list_arq
-    global prep_list_ext
+    global prep_list_ext,nome
     
     prep_list_arq = []
     prep_list_ext = []
-    
+    print(f'\n ---{lista}----\n')
     for arq in lista:
         sep =os.path.splitext(arq)
         prep_list_arq.append(sep[0])
         prep_list_ext.append(sep[1])
-    # for item_arq,item_ext in prep_list_arq,prep_list_ext:
-    #     nome = unidecode(item) 
-    #     if nome == item_arq:
-    #         pass
-    #     else:
-    #         print(nome.join(item_ext)) 
+        
+    pacote = zip(prep_list_arq,prep_list_ext)
+    for item_arq,item_ext in pacote:
+        nome = unidecode(item_arq) 
+        if nome == item_arq:
+            pass
+        else:
+            print(nome)
+            print(item_ext)
+            print(f'{nome}{item_ext}') 
             # os.rename()
 
 #=========================================================
@@ -75,10 +79,14 @@ contador = (n_dirs -1)
 
 for contagem in range(n_dirs):
     
-    while contador > 0:
-        select_dir = Dirs[contador]
+    while contador >= 0:
+        if not contador == 0:
+            select_dir = Dirs[contador]
+            print("aceito")
+        else:
+            print('pulei o 0')
         AutoRename_files(Files[contador])
-        
+        print(f'\n {contagem} | contador :{contador}')
         contador-=1
         
 print('ok')
