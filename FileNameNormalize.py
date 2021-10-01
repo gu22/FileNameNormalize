@@ -45,7 +45,7 @@ def Indexacao(objetos):
         sub_Dirs.append(subdiretorios)
         Files.append(arquivos)
 
-def AutoRename_files(lista):
+def AutoRename_files(lista,local):
     global prep_list_arq
     global prep_list_ext,nome
     
@@ -61,11 +61,15 @@ def AutoRename_files(lista):
     for item_arq,item_ext in pacote:
         nome = unidecode(item_arq) 
         if nome == item_arq:
+            print(f'\n{local}\n{nome}\n')
+            
+            
             pass
         else:
             print(nome)
             print(item_ext)
-            print(f'{nome}{item_ext}') 
+            print(f'{nome}{item_ext}')
+            print(local)
             # os.rename()
 
 #=========================================================
@@ -80,12 +84,12 @@ contador = (n_dirs -1)
 for contagem in range(n_dirs):
     
     while contador >= 0:
-        if not contador == 0:
-            select_dir = Dirs[contador]
-            print("aceito")
-        else:
-            print('pulei o 0')
-        AutoRename_files(Files[contador])
+        # if not contador == 0:
+        select_dir = Dirs[contador]
+        #     print("aceito")
+        # else:
+        #     print('pulei o 0')
+        AutoRename_files(Files[contador],select_dir)
         print(f'\n {contagem} | contador :{contador}')
         contador-=1
         
