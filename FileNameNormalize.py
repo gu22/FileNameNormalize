@@ -16,7 +16,7 @@ from shutil import copytree
 from unidecode import unidecode
 from pathlib import PurePath
 
-path_matricial = 'D:/gusan/Documents/PROGRAMAÇÃO/GitHub/FileNameNormalize/teste'
+# path_matricial = 'D:\Area de Teste - programação'
 
 
 
@@ -35,19 +35,24 @@ def Vasculhar(diretorio_observado):
     
 
 def Indexacao(objetos):
-    global Dirs,sub_Dirs,Files
+    global Dirs,Files
     Dirs = []
     sub_Dirs = []
     Files = []
+    temp =[]
     put = os.walk(objetos)
     for diretorios,subdiretorios,arquivos in put:
         Dirs.append(diretorios)
         sub_Dirs.append(subdiretorios)
         Files.append(arquivos)
+        # for i in ((range(len(Files)))-1)
+    n_files = sum([len(item) for item in Files])
+    return sub_Dirs, n_files
+    
 
 def AutoRename_files(lista,local):
-    global prep_list_arq
-    global prep_list_ext,nome
+    # global prep_list_arq
+    # global prep_list_ext,nome
     
     prep_list_arq = []
     prep_list_ext = []
@@ -66,17 +71,25 @@ def AutoRename_files(lista,local):
             
             pass
         else:
-            print(nome)
-            print(item_ext)
-            print(f'{nome}{item_ext}')
-            print(local)
-            # os.rename()
+            # print(nome)
+            # print(item_ext)
+            original = (os.path.join(local,(f'{item_arq}{item_ext}')))
+            output = (f'{nome}{item_ext}')
+            # print(local)
+            rename = (os.path.join(local,output))
+            # print (original)
+            # os.rename(original,rename)
+
+def AutoRename_path(lista,local):
+    pass
+
 
 #=========================================================
 
-# path_dir = easygui.fileopenbox()
+path_matricial = easygui.diropenbox(default='D:\Area de Teste - programação')
 
 Indexacao(path_matricial)
+z = Indexacao(path_matricial)
 
 n_dirs =(len(Dirs))
 contador = (n_dirs -1)
