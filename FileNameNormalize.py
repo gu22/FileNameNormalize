@@ -94,16 +94,16 @@ z = Indexacao(path_matricial)
 n_dirs =(len(Dirs))
 contador = (n_dirs -1)
 
-for contagem in range(n_dirs):
+for contagem in reversed(range(n_dirs)):
     
-    while contador >= 0:
+    # while contagem >= 0:
         # if not contador == 0:
-        select_dir = Dirs[contador]
+        select_dir = Dirs[contagem]
         #     print("aceito")
         # else:
         #     print('pulei o 0')
-        AutoRename_files(Files[contador],select_dir)
+        AutoRename_files(Files[contagem],select_dir)
         print(f'\n {contagem} | contador :{contador}')
-        contador-=1
+        # contador-=1
         
 print('ok')
