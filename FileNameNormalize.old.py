@@ -18,7 +18,8 @@ from pathlib import PurePath
 
 path_matricial = 'D:/gusan/Documents/PROGRAMAÇÃO/GitHub/FileNameNormalize/teste'
 contador = str(0)
-r = []
+
+
 def Vasculhar(diretorio_observado):
     dentro_diretorio = os.listdir(diretorio_observado)
     return dentro_diretorio
@@ -32,8 +33,8 @@ def Vasculhar(diretorio_observado):
 #             pass
 #     return files
     
-def Indexacao(objetos):
-    global x,y,z,r
+# def Indexacao(objetos):
+    # global x,y,z,r
     # global contador
     # nomeador  = f'Dir_{contador}'
     # for part in objetos:
@@ -53,10 +54,16 @@ def Indexacao(objetos):
         #         Indexacao(i)
             # else:
             #     print('nao')
-            
+def Indexacao(objetos):
+    global Dirs,sub_Dirs,Files
+    Dirs = []
+    sub_Dirs = []
+    Files = []
     put = os.walk(objetos)
-    for x,y,z in put:
-        r.append(z)
+    for diretorios,subdiretorios,arquivos in put:
+        Dirs.append(diretorios)
+        sub_Dirs.append(subdiretorios)
+        Files.append(arquivos)
         
               
 
@@ -64,9 +71,9 @@ def Indexacao(objetos):
 
 # intodir = os.listdir(path)
 
-x = Vasculhar(path_matricial)
+# x = Vasculhar(path_matricial)
 
-print(x)
+# print(x)
 
 Indexacao(path_matricial)
 # for i in os.scandir(path_matricial):
