@@ -78,10 +78,20 @@ def AutoRename_files(lista,local):
             # print(local)
             rename = (os.path.join(local,output))
             # print (original)
-            # os.rename(original,rename)
+            os.rename(original,rename)
 
-def AutoRename_path(lista,local):
-    pass
+def AutoRename_dir(local):
+    
+    # folder = PurePath(local).name
+    # base = os.path.dirname(local)
+    folder = os.path.split(local)
+    
+    folder_normalize = unidecode(folder[1])
+    folder_rename = os.path.join(folder[0],folder_normalize)
+    
+    if not folder_rename == folder[0]:
+        os.rename(local,folder_rename)
+
 
 
 #=========================================================
@@ -92,7 +102,7 @@ Indexacao(path_matricial)
 z = Indexacao(path_matricial)
 
 n_dirs =(len(Dirs))
-contador = (n_dirs -1)
+# contador = (n_dirs -1)
 
 for contagem in reversed(range(n_dirs)):
     
@@ -103,7 +113,16 @@ for contagem in reversed(range(n_dirs)):
         # else:
         #     print('pulei o 0')
         AutoRename_files(Files[contagem],select_dir)
-        print(f'\n {contagem} | contador :{contador}')
+        print(f'\n {contagem} ')
+        # print(f'\n {contagem} | contador :{contador}')
         # contador-=1
         
+for contagem in reversed(range(n_dirs)):
+    if not contagem == 0:
+        AutoRename_dir(Dirs[contagem])
+        
+    
+    
+    
+    
 print('ok')
