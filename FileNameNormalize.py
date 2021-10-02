@@ -53,9 +53,12 @@ def Indexacao(objetos):
 def AutoRename_files(lista,local):
     # global prep_list_arq
     # global prep_list_ext,nome
+    index_file = 1
     
     prep_list_arq = []
     prep_list_ext = []
+    
+    
     print(f'\n ---{lista}----\n')
     for arq in lista:
         sep =os.path.splitext(arq)
@@ -76,12 +79,29 @@ def AutoRename_files(lista,local):
             original = (os.path.join(local,(f'{item_arq}{item_ext}')))
             output = (f'{nome}{item_ext}')
             # print(local)
-            rename = (os.path.join(local,output))
+            rename1 = (os.path.join(local,output))
+            try:
+                os.rename(original,rename1)
+            except FileExistsError:
+                rename2 = os.path.split(rename1)
+                while os.path.exists(rename1):
+                    output = (f'{rename2[1]}({index_file})')
+                    rename1 = (os.path.join(rename2[0],output))
+                    
+                    index_file += 1
+                os.rename(original,rename1)
+                    
+                
+                
+                
             # print (original)
-            os.rename(original,rename)
+            
+                
+                
 
 def AutoRename_dir(local):
     
+    index_folder = 1
     # folder = PurePath(local).name
     # base = os.path.dirname(local)
     folder = os.path.split(local)
@@ -90,7 +110,16 @@ def AutoRename_dir(local):
     folder_rename = os.path.join(folder[0],folder_normalize)
     
     if not folder_rename == folder[0]:
-        os.rename(local,folder_rename)
+        try:
+            os.rename(local,folder_rename)
+        except FileExistsError:
+            folder_rename2 = os.path.split(folder_rename)
+            while os.path.exists(folder_rename):
+                output = (f'{folder_normalize}({index_folder})')
+                folder_rename = (os.path.join(folder_rename2[0],output))
+                
+                index_folder += 1
+            os.rename(local,folder_rename)
 
 
 
