@@ -10,13 +10,12 @@ import os.path
 import easygui
 
 import configparser
+import sys
 
-import shutil
-from shutil import copytree
 
 from unidecode import unidecode
 from pathlib import PurePath
-
+from datetime import datetime
 
 
 # path_matricial = 'D:\Area de Teste - programação'
@@ -25,6 +24,29 @@ config = configparser.ConfigParser(interpolation=None)
 config.read('Config\Config.ini')
 
 caracteres_coringas = (config['DEFAULT']['Caracteres'])
+diretorio_padrao = (config['DEFAULT']['Diretorio_padrao'])
+
+
+class Logger(object):
+    def __init__(self):
+        self.terminal = sys.stdout
+
+    def write(self, message):
+        with open (f"logfile-{datatempo}.log", "a", encoding = 'utf-8') as self.log:            
+            self.log.write(message)
+        self.terminal.write(message)
+
+    def flush(self):
+        #this flush method is needed for python 3 compatibility.
+        #this handles the flush command by doing nothing.
+        #you might want to specify some extra behavior here.
+        pass  
+
+sys.stdout = Logger()
+
+
+
+#============================== funções ====================
 
 def Vasculhar(diretorio_observado):
     dentro_diretorio = os.listdir(diretorio_observado)
@@ -101,7 +123,16 @@ def AutoRename_files(lista,local):
                     index_file += 1
                 os.rename(original,rename1)
             except PermissionError:
-                print(f"{rename1} não foi possivel modificar ")
+                 # print(f"{rename1} não foi possivel modificar ")
+                msg = (f"{original} >> não foi possivel renomear, SENDO UTILIZADO PELO SISTEMA\n ")
+                with open('FAIL-{datatempo}.txt','a',encoding = 'utf-8') as fail_log:
+                    fail_log.write(msg)
+                continue
+            except:
+                 # print(f"{rename1} não foi possivel modificar ")
+                msg = (f"{original} >> não foi possivel renomear,NÃO IDENTIFICADO VERIFICAR LOG\n ")
+                with open('FAIL-{datatempo}.txt','a',encoding = 'utf-8') as fail_log:
+                    fail_log.write(msg)
                 continue
                 
                 
@@ -137,14 +168,24 @@ def AutoRename_dir(local):
                 index_folder += 1
             os.rename(local,folder_rename)
         except PermissionError:
-            print(f"{folder_rename} não foi possivel modificar ")
+            # print(f"{folder_rename} não foi possivel modificar ")
+            msg = (f"{local} >> não foi possivel renomear, SENDO UTILIZADO PELO SISTEMA\n ")
+            with open('FAIL-{datatempo}.txt','a',encoding = 'utf-8') as fail_log:
+                fail_log.write(msg)
+            pass
+        except PermissionError:
+            # print(f"{folder_rename} não foi possivel modificar ")
+            msg = (f"{local} >> não foi possivel renomear, NÃO IDENTIFICADO VERIFICAR LOG\n ")
+            with open('FAIL-{datatempo}.txt','a',encoding = 'utf-8') as fail_log:
+                fail_log.write(msg)
             pass
 
 
-#=========================================================
+#===============================[ Rotina principal ]==========================
 
+datatempo = datetime.now().strftime("%d.%m.%Y_%H.%M.%S")
 # path_matricial = easygui.diropenbox(default='D:\Area de Teste - programação')
-path_matricial = easygui.diropenbox(default='D:\Programacao\Area de Teste - programação')
+path_matricial = easygui.diropenbox(default=diretorio_padrao)
 
 Indexacao(path_matricial)
 z = Indexacao(path_matricial)
