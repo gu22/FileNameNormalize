@@ -11,7 +11,7 @@ import easygui
 
 import configparser
 import sys
-
+import pendulum
 
 from unidecode import unidecode
 from pathlib import PurePath
@@ -27,12 +27,14 @@ caracteres_coringas = (config['DEFAULT']['Caracteres'])
 diretorio_padrao = (config['DEFAULT']['Diretorio_padrao'])
 
 
+
 class Logger(object):
     def __init__(self):
+        
         self.terminal = sys.stdout
 
     def write(self, message):
-        with open (f"logfile-{datatempo}.log", "a", encoding = 'utf-8') as self.log:            
+        with open (f"logfile-{datatempo}.log", "a") as self.log:            
             self.log.write(message)
         self.terminal.write(message)
 
@@ -42,8 +44,7 @@ class Logger(object):
         #you might want to specify some extra behavior here.
         pass  
 
-sys.stdout = Logger()
-
+sys.stdout =  Logger()
 
 
 #============================== funções ====================
@@ -88,7 +89,7 @@ def AutoRename_files(lista,local):
     
     exclude = caracteres_coringas
     
-    print(f'\n ---{lista}----\n')
+    # print(f'\n ---{lista}----\n')
     for arq in lista:
         sep =os.path.splitext(arq)
         prep_list_arq.append(sep[0])
@@ -98,7 +99,7 @@ def AutoRename_files(lista,local):
     for item_arq,item_ext in pacote:
         nome = unidecode(item_arq) 
         if nome == item_arq:
-            print(f'\n{local}\n{nome}\n')
+            # print(f'\n{local}\n{nome}\n')
             
             
             pass
@@ -184,6 +185,9 @@ def AutoRename_dir(local):
 #===============================[ Rotina principal ]==========================
 
 datatempo = datetime.now().strftime("%d.%m.%Y_%H.%M.%S")
+
+A = pendulum.now()
+print(f'========= Iniciado ====== {datatempo} =======\n')
 # path_matricial = easygui.diropenbox(default='D:\Area de Teste - programação')
 path_matricial = easygui.diropenbox(default=diretorio_padrao)
 
@@ -202,16 +206,15 @@ for contagem in reversed(range(n_dirs)):
         # else:
         #     print('pulei o 0')
         AutoRename_files(Files[contagem],select_dir)
-        print(f'\n {contagem} ')
+        # print(f'\n {contagem} ')
         # print(f'\n {contagem} | contador :{contador}')
         # contador-=1
         
 for contagem in reversed(range(n_dirs)):
     if not contagem == 0:
         AutoRename_dir(Dirs[contagem])
-        
-    
-    
-    
-    
-print('ok')
+
+B = pendulum.now()
+delta = (B-A).seconds
+print(f'========= Finalizado - OK ====== Tempo decorrido: {delta} seg ====== {datatempo} =======')
+
