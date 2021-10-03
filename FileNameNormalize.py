@@ -9,6 +9,7 @@ import os
 import os.path
 import easygui
 
+import configparser
 
 import shutil
 from shutil import copytree
@@ -16,9 +17,14 @@ from shutil import copytree
 from unidecode import unidecode
 from pathlib import PurePath
 
+
+
 # path_matricial = 'D:\Area de Teste - programação'
 
+config = configparser.ConfigParser(interpolation=None)
+config.read('Config\Config.ini')
 
+caracteres_coringas = (config['DEFAULT']['Caracteres'])
 
 def Vasculhar(diretorio_observado):
     dentro_diretorio = os.listdir(diretorio_observado)
@@ -58,6 +64,7 @@ def AutoRename_files(lista,local):
     prep_list_arq = []
     prep_list_ext = []
     
+    exclude = caracteres_coringas
     
     print(f'\n ---{lista}----\n')
     for arq in lista:
@@ -78,19 +85,24 @@ def AutoRename_files(lista,local):
             # print(item_ext)
             original = (os.path.join(local,(f'{item_arq}{item_ext}')))
             output = (f'{nome}{item_ext}')
+            for out in exclude:
+                output = output.replace(out,'_')
             # print(local)
             rename1 = (os.path.join(local,output))
             try:
                 os.rename(original,rename1)
             except FileExistsError:
                 rename2 = os.path.split(rename1)
+                sep =os.path.splitext(rename2[1])
                 while os.path.exists(rename1):
-                    output = (f'{rename2[1]}({index_file})')
+                    output = (f'{sep[0]} ({index_file}){sep[1]}')
                     rename1 = (os.path.join(rename2[0],output))
                     
                     index_file += 1
                 os.rename(original,rename1)
-                    
+            except PermissionError:
+                print(f"{rename1} não foi possivel modificar ")
+                continue
                 
                 
                 
@@ -102,11 +114,15 @@ def AutoRename_files(lista,local):
 def AutoRename_dir(local):
     
     index_folder = 1
+    exclude = caracteres_coringas
     # folder = PurePath(local).name
     # base = os.path.dirname(local)
     folder = os.path.split(local)
     
     folder_normalize = unidecode(folder[1])
+    for out in exclude:
+        folder_normalize = folder_normalize.replace(out,'_')
+    
     folder_rename = os.path.join(folder[0],folder_normalize)
     
     if not folder_rename == folder[0]:
@@ -120,12 +136,15 @@ def AutoRename_dir(local):
                 
                 index_folder += 1
             os.rename(local,folder_rename)
-
+        except PermissionError:
+            print(f"{folder_rename} não foi possivel modificar ")
+            pass
 
 
 #=========================================================
 
-path_matricial = easygui.diropenbox(default='D:\Area de Teste - programação')
+# path_matricial = easygui.diropenbox(default='D:\Area de Teste - programação')
+path_matricial = easygui.diropenbox(default='D:\Programacao\Area de Teste - programação')
 
 Indexacao(path_matricial)
 z = Indexacao(path_matricial)
