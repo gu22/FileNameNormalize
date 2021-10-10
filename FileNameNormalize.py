@@ -125,14 +125,14 @@ def AutoRename_files(lista,local):
                 os.rename(original,rename1)
             except PermissionError:
                  # print(f"{rename1} não foi possivel modificar ")
-                msg = (f"{original} >> não foi possivel renomear, SENDO UTILIZADO PELO SISTEMA\n ")
-                with open('FAIL-{datatempo}.txt','a',encoding = 'utf-8') as fail_log:
+                msg = (f"(ARQUIVO) {original} >> não foi possivel renomear, SENDO UTILIZADO PELO SISTEMA\n ")
+                with open(f'FAIL-{datatempo}.txt','a',encoding = 'utf-8') as fail_log:
                     fail_log.write(msg)
                 continue
             except:
                  # print(f"{rename1} não foi possivel modificar ")
-                msg = (f"{original} >> não foi possivel renomear,NÃO IDENTIFICADO VERIFICAR LOG\n ")
-                with open('FAIL-{datatempo}.txt','a',encoding = 'utf-8') as fail_log:
+                msg = (f"(ARQUIVO) {original} >> não foi possivel renomear,NÃO IDENTIFICADO VERIFICAR LOG\n ")
+                with open(f'FAIL-{datatempo}.txt','a',encoding = 'utf-8') as fail_log:
                     fail_log.write(msg)
                 continue
                 
@@ -170,14 +170,14 @@ def AutoRename_dir(local):
             os.rename(local,folder_rename)
         except PermissionError:
             # print(f"{folder_rename} não foi possivel modificar ")
-            msg = (f"{local} >> não foi possivel renomear, SENDO UTILIZADO PELO SISTEMA\n ")
-            with open('FAIL-{datatempo}.txt','a',encoding = 'utf-8') as fail_log:
+            msg = (f"(DIRETORIO) {local} >> não foi possivel renomear, SENDO UTILIZADO PELO SISTEMA\n ")
+            with open(f'FAIL-{datatempo}.txt','a',encoding = 'utf-8') as fail_log:
                 fail_log.write(msg)
             pass
         except PermissionError:
             # print(f"{folder_rename} não foi possivel modificar ")
-            msg = (f"{local} >> não foi possivel renomear, NÃO IDENTIFICADO VERIFICAR LOG\n ")
-            with open('FAIL-{datatempo}.txt','a',encoding = 'utf-8') as fail_log:
+            msg = (f"(DIRETORIO) {local} >> não foi possivel renomear, NÃO IDENTIFICADO VERIFICAR LOG\n ")
+            with open(f'FAIL-{datatempo}.txt','a',encoding = 'utf-8') as fail_log:
                 fail_log.write(msg)
             pass
 
@@ -216,5 +216,5 @@ for contagem in reversed(range(n_dirs)):
 
 B = pendulum.now()
 delta = (B-A).seconds
-print(f'========= Finalizado - OK ====== Tempo decorrido: {delta} seg ====== {datatempo} =======')
+print(f'========= Finalizado - OK ====== Tempo decorrido: {delta} seg ====== {datatempo} =======\n')
 
