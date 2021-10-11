@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Normalize Rename v0.1</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>rename.ico</normaloff>rename.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -105,13 +109,13 @@ Diretorio</string>
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuConfigura_o">
+   <widget class="QMenu" name="menuConfiguracao">
     <property name="title">
      <string>Configuração</string>
     </property>
     <addaction name="actionAbrir"/>
    </widget>
-   <addaction name="menuConfigura_o"/>
+   <addaction name="menuConfiguracao"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAbrir">

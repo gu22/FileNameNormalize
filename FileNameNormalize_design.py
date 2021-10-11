@@ -19,7 +19,7 @@ from unidecode import unidecode
 from pathlib import PurePath
 from datetime import datetime
 
-from PyQt5 import QtWidgets,QtCore,uic
+from PyQt5 import QtWidgets, uic
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox
 
@@ -64,7 +64,7 @@ class Ui(QtWidgets.QMainWindow):
         uic.loadUi('.\Config\Face.ui', self)
         
         # self.setFixedSize(316, 357)
-        self.setWindowIcon(QtGui.QIcon('.\Config\rename.ico'))
+        self.setWindowIcon(QtGui.QIcon('.\Config\icon_re.ico'))
         
         
         self.nome_pasta.setText(diretorio_padrao)
@@ -89,6 +89,7 @@ class Ui(QtWidgets.QMainWindow):
         
         msgBox = QMessageBox()
         msgBox.setIcon(QMessageBox.Warning)
+        msgBox.setWindowIcon(QtGui.QIcon('.\Config\icon_re.ico'))
         msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
         msgBox.setWindowTitle("ALERTA")
         msgBox.setText(f"Este Software irá renomear todos os arquivos\nApós Iniciar não é possivel interromper\n\nForam encontrados {exib_d} Diretorios com {exib_f} Arquivos\nAs ações estão sendo exibidas na janela auxiliar\n\nClique OK para continuar e Cancel para retornar para tela inicial ")
@@ -96,8 +97,15 @@ class Ui(QtWidgets.QMainWindow):
         
         returnValue = msgBox.exec()
         if returnValue == QMessageBox.Ok:
-            print('User Input: OK\nProsseguindo com processo\n')
-            self.Principal()
+            if exib_f == 0 and exib_d == 0:
+                msgBox = QMessageBox()
+                msgBox.setText('Nenhum arquivo encontrado ou Diretorio não existe\nProcesso Cancelado\n')
+                msgBox.setWindowTitle("Processo não pode continuar")
+                msgBox.exec()
+                print('Nenhum arquivo encontrado ou Diretorio não existe\nProcesso Cancelado\n')
+            else:
+                print('User Input: OK\nProsseguindo com processo\n')
+                self.Principal()
             # print(self.nome_pasta.text())
         else:
             print('User Input: Cancel\nProcesso Cancelado\n')
