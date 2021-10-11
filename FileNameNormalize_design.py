@@ -31,7 +31,7 @@ config.read('Config\Config.ini',encoding='utf-8')
 caracteres_coringas = (config['DEFAULT']['Caracteres'])
 diretorio_padrao = (config['DEFAULT']['Diretorio_padrao'])
 
-print(pyfiglet.figlet_format('Normalize Rename v0.1\n',font='slant'))
+print(pyfiglet.figlet_format('Normalize Rename v1.0\n',font='slant'))
 print('Não feche essa janela\n')
 
 
