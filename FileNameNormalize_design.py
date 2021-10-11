@@ -12,6 +12,8 @@ import easygui
 import configparser
 import sys
 import pendulum
+import pyfiglet
+
 
 from unidecode import unidecode
 from pathlib import PurePath
@@ -29,6 +31,8 @@ config.read('Config\Config.ini',encoding='utf-8')
 caracteres_coringas = (config['DEFAULT']['Caracteres'])
 diretorio_padrao = (config['DEFAULT']['Diretorio_padrao'])
 
+print(pyfiglet.figlet_format('Normalize Rename v0.1\n',font='slant'))
+print('Não feche essa janela\n')
 
 
 
@@ -74,25 +78,54 @@ class Ui(QtWidgets.QMainWindow):
         self.show()
 
     def msg(self):
+
+        self.Indexacao(self.nome_pasta.text())
+        exib_d = len(Dirs) 
+        exib_f = 0
+        for i in Files:
+            for file in i:
+                exib_f+=1
+        
+        
         msgBox = QMessageBox()
         msgBox.setIcon(QMessageBox.Warning)
         msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
         msgBox.setWindowTitle("ALERTA")
-        msgBox.setText("Este Software irá renomear todos os arquivos\nApós Iniciar não é possivel interromper\n\nClique OK para continuar e Cancel para retornar para tela inicial ")
+        msgBox.setText(f"Este Software irá renomear todos os arquivos\nApós Iniciar não é possivel interromper\n\nForam encontrados {exib_d} Diretorios com {exib_f} Arquivos\nAs ações estão sendo exibidas na janela auxiliar\n\nClique OK para continuar e Cancel para retornar para tela inicial ")
+        print(f'\nForam encontrados {exib_d} Diretorios com {exib_f} Arquivos\n')
         
         returnValue = msgBox.exec()
         if returnValue == QMessageBox.Ok:
+            print('User Input: OK\nProsseguindo com processo\n')
             self.Principal()
             # print(self.nome_pasta.text())
         else:
-            print('Cancel')
+            print('User Input: Cancel\nProcesso Cancelado\n')
             
             
 
     def select_path(self):
-        
+        # global path_out
         path_matricial = easygui.diropenbox(default=diretorio_padrao)
+        # path_out = path_matricial
+        print(f'\nDiretorio Selecionado: {path_matricial}\n')
         self.nome_pasta.setText(path_matricial)
+        
+        
+    def Indexacao(self,objetos):
+        global Dirs,Files
+        Dirs = []
+        sub_Dirs = []
+        Files = []
+        temp =[]
+        put = os.walk(objetos)
+        for diretorios,subdiretorios,arquivos in put:
+            Dirs.append(diretorios)
+            sub_Dirs.append(subdiretorios)
+            Files.append(arquivos)
+            # for i in ((range(len(Files)))-1)
+        n_files = sum([len(item) for item in Files])
+        return sub_Dirs, n_files
     
     def Principal(self):
         
@@ -113,20 +146,20 @@ class Ui(QtWidgets.QMainWindow):
         #     return files
             
         
-        def Indexacao(objetos):
-            global Dirs,Files
-            Dirs = []
-            sub_Dirs = []
-            Files = []
-            temp =[]
-            put = os.walk(objetos)
-            for diretorios,subdiretorios,arquivos in put:
-                Dirs.append(diretorios)
-                sub_Dirs.append(subdiretorios)
-                Files.append(arquivos)
-                # for i in ((range(len(Files)))-1)
-            n_files = sum([len(item) for item in Files])
-            return sub_Dirs, n_files
+        # def Indexacao(objetos):
+        #     global Dirs,Files
+        #     Dirs = []
+        #     sub_Dirs = []
+        #     Files = []
+        #     temp =[]
+        #     put = os.walk(objetos)
+        #     for diretorios,subdiretorios,arquivos in put:
+        #         Dirs.append(diretorios)
+        #         sub_Dirs.append(subdiretorios)
+        #         Files.append(arquivos)
+        #         # for i in ((range(len(Files)))-1)
+        #     n_files = sum([len(item) for item in Files])
+        #     return sub_Dirs, n_files
             
         
         def AutoRename_files(lista,local):
@@ -249,8 +282,8 @@ class Ui(QtWidgets.QMainWindow):
         # path_matricial = easygui.diropenbox(default='D:\Area de Teste - programação')
         # path_matricial = easygui.diropenbox(default=diretorio_padrao)
         
-        Indexacao(path_matricial)
-        z = Indexacao(path_matricial)
+        self.Indexacao(path_matricial)
+        # z = Indexacao(path_matricial)
         
         n_dirs =(len(Dirs))
         # contador = (n_dirs -1)
