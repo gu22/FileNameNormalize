@@ -72,10 +72,20 @@ class Ui(QtWidgets.QMainWindow):
 
         self.selecionar_pasta.clicked.connect(self.select_path)
         self.botao_iniciar.clicked.connect(self.msg)
+        self.actionAbrir.triggered.connect(self.config_file)
         
         
 
         self.show()
+        
+        
+    def config_file(self):
+        msgBox = QMessageBox()
+        msgBox.setWindowIcon(QtGui.QIcon('.\Config\icon_re.ico'))
+        msgBox.setWindowTitle("Configuração")
+        msgBox.setText("Para editar as configurações, por favor, utilize o bloco de notas/Notepad")
+        msgBox.exec()
+        os.system('.\Config\Config.ini')
 
     def msg(self):
 
@@ -114,7 +124,7 @@ class Ui(QtWidgets.QMainWindow):
 
     def select_path(self):
         # global path_out
-        path_matricial = easygui.diropenbox(default=diretorio_padrao)
+        path_matricial = easygui.diropenbox(default=self.nome_pasta.text())
         # path_out = path_matricial
         print(f'\nDiretorio Selecionado: {path_matricial}\n')
         self.nome_pasta.setText(path_matricial)

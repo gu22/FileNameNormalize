@@ -35,7 +35,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Normalize Rename v0.1</string>
+     <string>Normalize Rename v1.0</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="nome_pasta">
