@@ -19,7 +19,7 @@ from unidecode import unidecode
 from pathlib import PurePath
 from datetime import datetime
 
-from PyQt5 import QtWidgets, uic
+from PyQt5 import QtWidgets,QtCore,uic
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox
 
@@ -64,7 +64,7 @@ class Ui(QtWidgets.QMainWindow):
         uic.loadUi('.\Config\Face.ui', self)
         
         # self.setFixedSize(316, 357)
-        # self.setWindowIcon(QtGui.QIcon('.\Config\Icon.ico'))
+        self.setWindowIcon(QtGui.QIcon('.\Config\rename.ico'))
         
         
         self.nome_pasta.setText(diretorio_padrao)
